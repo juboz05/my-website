@@ -117,6 +117,17 @@
   no.addEventListener('focus',dodge);
 
   yes.addEventListener('click',()=>{
+    // Send email notification to your inbox via Web3Forms
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: 'bc8ed17d-52cc-4dd7-b147-12cca3bb699a',
+        subject: '🎉 They Said YES to Spider-Man Date!',
+        message: 'Someone clicked YES on your Spider-Man movie date page!'
+      })
+    });
+
     question.style.display='none';
     success.classList.add('show');
     for(let i=0;i<34;i++){
