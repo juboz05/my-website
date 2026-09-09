@@ -3,71 +3,388 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
-<meta name="description" content="A very important question.">
 <title>A Very Important Question 🕷️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#080a10; --card:#111521; --text:#f8fafc; --muted:#aab1c2;
-    --red:#ef233c; --red2:#b70924; --blue:#2563eb; --line:#252b3a;
+  :root {
+    --bg: #05060c;
+    --card: #0d1020;
+    --card-line: rgba(255,255,255,0.09);
+    --text: #f4f6ff;
+    --muted: #93a0c2;
+    --red: #ef233c;
+    --red-deep: #8c0d21;
+    --blue: #2f5fe0;
+    --blue-deep: #16224e;
+    --gold: #ffd166;
+    --font-display: 'Space Grotesk', ui-rounded, system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
-  *{box-sizing:border-box}
-  body{
-    margin:0; min-height:100vh; display:grid; place-items:center; overflow:hidden;
-    font-family:Inter,ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    color:var(--text); background:
-      radial-gradient(circle at 15% 15%,rgba(239,35,60,.18),transparent 30%),
-      radial-gradient(circle at 85% 85%,rgba(37,99,235,.16),transparent 30%),var(--bg);
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    font-family: var(--font-body);
+    color: var(--text);
+    background: var(--bg);
   }
-  .card{
-    width:min(92vw,650px); padding:42px 28px 34px; text-align:center; position:relative;
-    background:rgba(17,21,33,.94); border:1px solid var(--line); border-radius:30px;
-    box-shadow:0 30px 80px rgba(0,0,0,.45); overflow:hidden;
+
+  /* Ambient multiverse backdrop */
+  .cosmos {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 18% 20%, rgba(239,35,60,0.24), transparent 38%),
+      radial-gradient(circle at 82% 78%, rgba(47,95,224,0.24), transparent 40%),
+      radial-gradient(circle at 50% 50%, #0a0d18 0%, var(--bg) 70%);
   }
-  .web{position:absolute; inset:-100px auto auto -100px; width:260px;height:260px;opacity:.12}
-  .web span{position:absolute;inset:0;border:1px solid #fff;border-radius:50%}
-  .web span:nth-child(2){inset:35px}.web span:nth-child(3){inset:70px}
-  .web:before,.web:after{content:"";position:absolute;left:50%;top:0;width:1px;height:100%;background:#fff;transform:rotate(45deg)}
-  .web:after{transform:rotate(-45deg)}
-  .spider{font-size:54px;line-height:1;margin-bottom:20px;filter:drop-shadow(0 8px 12px rgba(239,35,60,.2))}
-  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#ef6476;font-weight:800;margin-bottom:10px}
-  h1{font-size:clamp(29px,7vw,48px);line-height:1.06;letter-spacing:-.04em;margin:0 auto 15px;max-width:570px}
-  .sub{font-size:17px;color:var(--muted);line-height:1.55;margin:0 auto 30px;max-width:500px}
-  .stage{height:150px;position:relative;display:flex;align-items:center;justify-content:center;gap:16px}
-  button{
-    appearance:none;border:0;border-radius:999px;min-height:54px;padding:14px 27px;
-    font:inherit;font-weight:800;font-size:16px;cursor:pointer;touch-action:manipulation;
-    transition:transform .18s ease,box-shadow .18s ease;
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.55) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 70% 65%, rgba(255,255,255,0.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.5) 50%, transparent 51%),
+      radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.45) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 55% 40%, rgba(255,255,255,0.35) 50%, transparent 51%),
+      radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,0.4) 50%, transparent 51%),
+      radial-gradient(1px 1px at 90% 90%, rgba(255,255,255,0.4) 50%, transparent 51%);
+    background-size: 100% 100%;
+    animation: twinkle 5s ease-in-out infinite alternate;
   }
-  #yes{background:linear-gradient(135deg,var(--red),var(--red2));color:white;box-shadow:0 10px 28px rgba(239,35,60,.28);z-index:3}
-  #yes:hover{transform:translateY(-2px) scale(1.04)}
-  #no{background:#252b38;color:#cbd0dc;z-index:4;position:relative}
-  .hint{height:24px;color:#7f889b;font-size:13px;margin-top:2px}
-  .success{display:none}
-  .success.show{display:block;animation:pop .5s cubic-bezier(.2,.8,.2,1)}
-  .success .big{font-size:64px;margin-bottom:8px}
-  .success h2{font-size:34px;margin:0 0 10px}
-  .success p{color:var(--muted);font-size:17px;margin:0}
-  .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-  .piece{position:absolute;top:-20px;width:8px;height:14px;border-radius:2px;animation:fall 1.7s linear forwards}
-  @keyframes pop{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
-  @keyframes fall{to{transform:translateY(700px) rotate(600deg);opacity:0}}
-  @media(max-width:500px){
-    .card{padding:34px 18px 28px}.stage{height:180px}
-    button{padding:13px 21px;min-width:100px}
-    .sub{font-size:16px}
+
+  @keyframes twinkle { from { opacity: 0.5; } to { opacity: 1; } }
+
+  .web-backdrop {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 900px; height: 900px;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    opacity: 0.06;
+    animation: slowSpin 90s linear infinite;
   }
-  @media(prefers-reduced-motion:reduce){
-    *,*:before,*:after{animation-duration:.01ms!important;transition:none!important}
+
+  @keyframes slowSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  /* Card */
+  .card {
+    width: min(92vw, 540px);
+    padding: 40px 26px 30px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(19,23,40,0.92), rgba(11,13,24,0.94));
+    border: 1px solid var(--card-line);
+    border-radius: 26px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.04);
+    isolation: isolate;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 14px 14px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .caption-box {
+    display: inline-block;
+    background: var(--gold);
+    color: #17130a;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    padding: 7px 14px;
+    border-radius: 4px;
+    transform: rotate(-2deg);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.35);
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .speech {
+    position: relative;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-line);
+    border-radius: 22px;
+    padding: 22px 20px 20px;
+    margin: 0 auto 18px;
+    max-width: 460px;
+  }
+
+  .speech::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    transform: translateX(-50%);
+    border-width: 14px 12px 0 12px;
+    border-style: solid;
+    border-color: rgba(255,255,255,0.03) transparent transparent transparent;
+  }
+
+  .speech::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -15.5px;
+    transform: translateX(-50%);
+    border-width: 15px 13px 0 13px;
+    border-style: solid;
+    border-color: var(--card-line) transparent transparent transparent;
+    z-index: -1;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 5vw, 32px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    max-width: 420px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 22px auto 22px;
+    max-width: 420px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Stage */
+  .stage {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    border-radius: 18px;
+    background:
+      radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px) 0 0/12px 12px,
+      rgba(0,0,0,0.28);
+    border: 1px dashed rgba(255,255,255,0.1);
+    overflow: visible;
+  }
+
+  button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    min-height: 52px;
+    padding: 14px 30px;
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  #yes {
+    background: linear-gradient(135deg, var(--red), var(--red-deep));
+    color: white;
+    box-shadow: 0 10px 28px rgba(239,35,60,0.35);
+    z-index: 3;
+  }
+  #yes:hover { transform: translateY(-2px) scale(1.05); }
+
+  #no {
+    background: #1b2032;
+    color: #d3d8e6;
+    z-index: 4;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+
+  .hint {
+    min-height: 20px;
+    color: #8792ab;
+    font-size: 13px;
+    margin-top: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Multiverse Portals */
+  .portal {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    z-index: 60;
+    pointer-events: none;
+    transition: transform 0.32s cubic-bezier(.34,1.56,.64,1), opacity 0.28s ease;
+  }
+  .portal.open { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+
+  .portal-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--red), var(--gold), var(--blue), var(--gold), var(--red));
+    filter: blur(2px);
+    animation: spin 1.2s linear infinite;
+    box-shadow: 0 0 20px var(--gold);
+  }
+  .portal-ring.inner {
+    inset: 12px;
+    animation-duration: 0.8s;
+    animation-direction: reverse;
+    filter: blur(1px);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .portal-core {
+    position: absolute;
+    inset: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #080b18 50%, #000000 90%);
+    box-shadow: inset 0 0 18px rgba(255,209,102,0.6);
+  }
+
+  .portal-figure {
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spidey-svg {
+    width: 85px;
+    height: 85px;
+    transform: translateY(100%) scale(0.6);
+    transition: transform 0.28s cubic-bezier(.17,1.38,.5,1.15);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.8));
+  }
+  
+  .portal.reveal .spidey-svg {
+    transform: translateY(10%) scale(1);
+  }
+
+  /* Web-line overlay */
+  #cardWebOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 65;
+  }
+
+  /* Success screen */
+  .success { display: none; }
+  .success.show { display: block; animation: pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .success .big { font-size: 54px; margin-bottom: 10px; }
+  .success h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    margin: 0 0 10px;
+  }
+  .success p { color: var(--muted); font-size: 15px; margin: 0; }
+
+  .confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 100; }
+  .piece { position: absolute; top: -20px; width: 8px; height: 14px; border-radius: 2px; animation: fall 1.7s linear forwards; }
+
+  .comic-pop {
+    position: absolute;
+    z-index: 1000;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--gold);
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    pointer-events: none;
+    animation: popAndFade 0.6s forwards ease-out;
+  }
+
+  @keyframes popAndFade {
+    0% { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) translateY(-15deg) rotate(0deg); opacity: 0; }
+  }
+
+  @keyframes pop { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fall { to { transform: translateY(600px) rotate(600deg); opacity: 0; } }
+
+  @media (max-width: 500px) {
+    .card { padding: 32px 16px 24px; }
+    .stage { height: 180px; }
+    button { padding: 12px 22px; }
+    .portal { width: 90px; height: 90px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stars, .web-backdrop, .portal-ring { animation: none !important; }
+    button, .portal, .spidey-svg { transition: none !important; }
   }
 </style>
 </head>
 <body>
-<main class="card" id="app">
-  <div class="web"><span></span><span></span><span></span></div>
-  <div class="spider" aria-hidden="true">🕷️</div>
-  <div class="eyebrow">a very important question</div>
-  <h1>Wanna go watch the new Spider-Man movie with me? 👀</h1>
+
+<div class="cosmos"></div>
+<div class="stars"></div>
+<svg class="web-backdrop" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#ffffff" stroke-width="1" fill="none">
+    <circle cx="200" cy="200" r="60"/>
+    <circle cx="200" cy="200" r="110"/>
+    <circle cx="200" cy="200" r="160"/>
+    <line x1="200" y1="10" x2="200" y2="390"/>
+    <line x1="10" y1="200" x2="390" y2="200"/>
+    <line x1="60" y1="60" x2="340" y2="340"/>
+    <line x1="60" y1="340" x2="340" y2="60"/>
+    <line x1="130" y1="20" x2="270" y2="380"/>
+    <line x1="270" y1="20" x2="130" y2="380"/>
+  </g>
+</svg>
+
+<main class="card" id="card">
+
+  <svg id="cardWebOverlay">
+    <path id="webLine" d="" stroke="#ffffff" stroke-width="3.5" fill="none" stroke-linecap="round" filter="drop-shadow(0 0 6px rgba(255,255,255,0.9))"/>
+    <path id="webLineInner" d="" stroke="#ef233c" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <div class="caption-box">Spidey-sense tingling...</div>
+
+  <div class="speech">
+    <h1>Wanna go watch the new Spider-Man movie with me? 👀</h1>
+  </div>
   <p class="sub">I feel like this could be a pretty good excuse for popcorn and spending a few hours together.</p>
 
   <section id="question">
@@ -83,41 +400,245 @@
     <h2>I knew you'd say yes 😌</h2>
     <p>Spider-Man + popcorn + you sounds like a date to me.</p>
   </section>
+
   <div class="confetti" id="confetti"></div>
 </main>
 
 <script>
 (() => {
-  const stage=document.getElementById('stage'), no=document.getElementById('no');
-  const yes=document.getElementById('yes'), question=document.getElementById('question');
-  const success=document.getElementById('success'), hint=document.getElementById('hint');
-  let dodges=0;
-  const hints=[
-    "Choose wisely...",
-    "Nice try 😭",
-    "Hehe, nope.",
-    "You almost had it 👀",
-    "The button has commitment issues.",
-    "Okay okay... just say yes 🥺"
+  // Vector graphic of Spider-Man emerging with outstretched arm
+  const SPIDEY_VECTOR_SVG = `
+    <svg class="spidey-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Suit Body/Shoulders -->
+      <path d="M20 95 C 20 65, 35 55, 50 55 C 65 55, 80 65, 80 95 Z" fill="#2563eb" />
+      <path d="M30 95 C 30 70, 40 60, 50 60 C 60 60, 70 70, 70 95 Z" fill="#ef233c" />
+      <!-- Chest Spider -->
+      <path d="M50 72 L47 77 L43 75 M50 72 L53 77 L57 75 M50 78 L45 85 M50 78 L55 85" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="50" cy="74" r="2" fill="#ffffff"/>
+      
+      <!-- Outstretched Reaching Arm/Hand -->
+      <path d="M65 75 Q 82 60, 88 45" stroke="#ef233c" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="88" cy="45" r="7" fill="#ef233c"/>
+      <!-- Web shooter gauntlet -->
+      <path d="M84 48 L90 42" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Head -->
+      <ellipse cx="50" cy="42" rx="19" ry="23" fill="#ef233c" />
+      <!-- Head Web Pattern -->
+      <path d="M50 19 L50 65 M31 42 L69 42 M36 28 L64 56 M36 56 L64 28" stroke="#a20d21" stroke-width="1" opacity="0.6"/>
+      <!-- Spider Eyes -->
+      <path d="M35 38 Q 44 36, 47 45 Q 40 48, 35 38 Z" fill="#ffffff" stroke="#000000" stroke-width="2.5"/>
+      <path d="M65 38 Q 56 36, 53 45 Q 60 48, 65 38 Z" fill="#ffffff" stroke="#000000" stroke-width="2.5"/>
+    </svg>
+  `;
+
+  const PORTAL_SPOTS = [
+    { x: 8,  y: 12 },
+    { x: 50, y: 5  },
+    { x: 92, y: 12 },
+    { x: 95, y: 40 },
+    { x: 95, y: 70 },
+    { x: 92, y: 90 },
+    { x: 50, y: 95 },
+    { x: 8,  y: 90 },
+    { x: 5,  y: 70 },
+    { x: 5,  y: 40 }
   ];
 
-  function dodge(){
-    dodges++;
-    no.style.position='absolute';
-    const pad=4;
-    const maxX=Math.max(pad,stage.clientWidth-no.offsetWidth-pad);
-    const maxY=Math.max(pad,stage.clientHeight-no.offsetHeight-pad);
-    no.style.left=(pad+Math.random()*Math.max(1,maxX-pad))+'px';
-    no.style.top=(pad+Math.random()*Math.max(1,maxY-pad))+'px';
-    hint.textContent=hints[Math.min(dodges,hints.length-1)];
+  const hints = [
+    "Choose wisely...",
+    "THWIP! Spidey emerged from a portal and grabbed it! 😭",
+    "Nice try! Spidey is way too fast.",
+    "The multiverse itself said no to your 'No'!",
+    "He won't let you click No 😉",
+    "Okay okay... just say yes 🥺",
+    "You can try all day, he's got infinite portals! 😌"
+  ];
+
+  const comicWords = ["THWIP!", "NOPE!", "SNAP!", "GOTCHA!", "TOO SLOW!", "ZWOOP!"];
+
+  const card = document.getElementById('card');
+  const stage = document.getElementById('stage');
+  const no = document.getElementById('no');
+  const yes = document.getElementById('yes');
+  const question = document.getElementById('question');
+  const success = document.getElementById('success');
+  const hint = document.getElementById('hint');
+  const webLine = document.getElementById('webLine');
+  const webLineInner = document.getElementById('webLineInner');
+
+  let dodges = 0;
+  let isPulling = false;
+  let lastSpotIndex = -1;
+
+  // Procedural Web Sound
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let audioCtx = null;
+
+  function playThwipSound() {
+    try {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const bufferSize = audioCtx.sampleRate * 0.1;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(1500, audioCtx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(220, audioCtx.currentTime + 0.1);
+      filter.Q.value = 4;
+
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.75, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      noise.start();
+    } catch (e) {}
   }
 
-  no.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse') dodge()});
-  no.addEventListener('pointerdown',e=>{e.preventDefault();dodge()});
-  no.addEventListener('focus',dodge);
+  function pickPortalSpot() {
+    let idx;
+    do { idx = Math.floor(Math.random() * PORTAL_SPOTS.length); } while (idx === lastSpotIndex);
+    lastSpotIndex = idx;
+    return PORTAL_SPOTS[idx];
+  }
 
-  yes.addEventListener('click',()=>{
-    // Send email notification to your inbox via Web3Forms
+  function spawnComicPop(x, y) {
+    const pop = document.createElement('div');
+    pop.className = 'comic-pop';
+    pop.textContent = comicWords[Math.floor(Math.random() * comicWords.length)];
+    pop.style.left = (x + 10) + 'px';
+    pop.style.top = (y - 15) + 'px';
+    card.appendChild(pop);
+    setTimeout(() => pop.remove(), 600);
+  }
+
+  function buildPortal(spot) {
+    const portal = document.createElement('div');
+    portal.className = 'portal';
+    portal.style.left = spot.x + '%';
+    portal.style.top = spot.y + '%';
+    portal.innerHTML = `
+      <div class="portal-ring"></div>
+      <div class="portal-ring inner"></div>
+      <div class="portal-core"></div>
+      <div class="portal-figure">
+        ${SPIDEY_VECTOR_SVG}
+      </div>
+    `;
+    card.appendChild(portal);
+    return portal;
+  }
+
+  function executeWebPull() {
+    if (isPulling) return;
+    isPulling = true;
+    dodges++;
+
+    const cardRect = card.getBoundingClientRect();
+    const spot = pickPortalSpot();
+    const portal = buildPortal(spot);
+
+    const portalPxX = (spot.x / 100) * cardRect.width;
+    const portalPxY = (spot.y / 100) * cardRect.height;
+    
+    // Hand origin coordinate offset from portal center
+    const handX = portalPxX + 25;
+    const handY = portalPxY - 10;
+
+    // Open portal ring
+    requestAnimationFrame(() => portal.classList.add('open'));
+
+    // Emerge Spider-Man out of portal
+    setTimeout(() => {
+      portal.classList.add('reveal');
+      playThwipSound();
+    }, 140);
+
+    // Web shoot & drag button
+    setTimeout(() => {
+      no.style.position = 'absolute';
+
+      const pad = 12;
+      const maxX = Math.max(pad, stage.clientWidth - no.offsetWidth - pad);
+      const maxY = Math.max(pad, stage.clientHeight - no.offsetHeight - pad);
+
+      const targetX = pad + Math.random() * Math.max(1, maxX - pad);
+      const targetY = pad + Math.random() * Math.max(1, maxY - pad);
+
+      const stageRect = stage.getBoundingClientRect();
+      const startBtnX = no.offsetLeft || (stageRect.width / 2 + 20);
+      const startBtnY = no.offsetTop || (stageRect.height / 2 - 20);
+
+      // Keep button visible and scale Yes bigger
+      const scaleVal = Math.max(0.7, 1 - dodges * 0.03);
+      no.style.transform = `scale(${scaleVal})`;
+      yes.style.transform = `scale(${Math.min(1.45, 1 + dodges * 0.06)})`;
+
+      let startTime = null;
+      const duration = 360;
+
+      function animate(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+
+        const curBtnX = startBtnX + (targetX - startBtnX) * progress;
+        const curBtnY = startBtnY + (targetY - startBtnY) * progress;
+        no.style.left = curBtnX + 'px';
+        no.style.top = curBtnY + 'px';
+
+        const btnCardX = (stageRect.left - cardRect.left) + curBtnX + no.offsetWidth / 2;
+        const btnCardY = (stageRect.top - cardRect.top) + curBtnY + no.offsetHeight / 2;
+
+        const midX = (handX + btnCardX) / 2 + Math.sin(progress * Math.PI) * 35;
+        const midY = (handY + btnCardY) / 2 - 15;
+
+        const pathData = `M ${handX} ${handY} Q ${midX} ${midY} ${btnCardX} ${btnCardY}`;
+        webLine.setAttribute('d', pathData);
+        webLineInner.setAttribute('d', pathData);
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          setTimeout(() => {
+            webLine.setAttribute('d', '');
+            webLineInner.setAttribute('d', '');
+          }, 70);
+
+          spawnComicPop((stageRect.left - cardRect.left) + targetX, (stageRect.top - cardRect.top) + targetY);
+          hint.textContent = hints[Math.min(dodges, hints.length - 1)];
+        }
+      }
+      requestAnimationFrame(animate);
+    }, 280);
+
+    // Retract back into portal
+    setTimeout(() => portal.classList.remove('reveal'), 620);
+
+    // Close portal
+    setTimeout(() => portal.classList.remove('open'), 780);
+    setTimeout(() => {
+      portal.remove();
+      isPulling = false;
+    }, 1100);
+  }
+
+  no.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') executeWebPull(); });
+  no.addEventListener('pointerdown', e => { e.preventDefault(); executeWebPull(); });
+  no.addEventListener('focus', executeWebPull);
+
+  // Yes button handler
+  yes.addEventListener('click', () => {
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -126,19 +647,20 @@
         subject: '🎉 They Said YES to Spider-Man Date!',
         message: 'Someone clicked YES on your Spider-Man movie date page!'
       })
-    });
+    }).catch(() => {});
 
-    question.style.display='none';
+    question.style.display = 'none';
     success.classList.add('show');
-    for(let i=0;i<34;i++){
-      const p=document.createElement('i');
-      p.className='piece';
-      p.style.left=(Math.random()*100)+'%';
-      p.style.background=i%2?'#ef233c':'#2563eb';
-      p.style.animationDelay=(Math.random()*.55)+'s';
-      p.style.transform=`rotate(${Math.random()*180}deg)`;
+
+    for (let i = 0; i < 36; i++) {
+      const p = document.createElement('i');
+      p.className = 'piece';
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.background = i % 2 === 0 ? '#ef233c' : '#2f5fe0';
+      p.style.animationDelay = (Math.random() * 0.5) + 's';
+      p.style.transform = `rotate(${Math.random() * 180}deg)`;
       document.getElementById('confetti').appendChild(p);
-      setTimeout(()=>p.remove(),2300);
+      setTimeout(() => p.remove(), 2300);
     }
   });
 })();
