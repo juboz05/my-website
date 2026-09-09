@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<meta name="description" content="A very important question.">
+<title>A Very Important Question 🕷️</title>
+<style>
+  :root{
+    --bg:#080a10; --card:#111521; --text:#f8fafc; --muted:#aab1c2;
+    --red:#ef233c; --red2:#b70924; --blue:#2563eb; --line:#252b3a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:grid; place-items:center; overflow:hidden;
+    font-family:Inter,ui-rounded,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text); background:
+      radial-gradient(circle at 15% 15%,rgba(239,35,60,.18),transparent 30%),
+      radial-gradient(circle at 85% 85%,rgba(37,99,235,.16),transparent 30%),var(--bg);
+  }
+  .card{
+    width:min(92vw,650px); padding:42px 28px 34px; text-align:center; position:relative;
+    background:rgba(17,21,33,.94); border:1px solid var(--line); border-radius:30px;
+    box-shadow:0 30px 80px rgba(0,0,0,.45); overflow:hidden;
+  }
+  .web{position:absolute; inset:-100px auto auto -100px; width:260px;height:260px;opacity:.12}
+  .web span{position:absolute;inset:0;border:1px solid #fff;border-radius:50%}
+  .web span:nth-child(2){inset:35px}.web span:nth-child(3){inset:70px}
+  .web:before,.web:after{content:"";position:absolute;left:50%;top:0;width:1px;height:100%;background:#fff;transform:rotate(45deg)}
+  .web:after{transform:rotate(-45deg)}
+  .spider{font-size:54px;line-height:1;margin-bottom:20px;filter:drop-shadow(0 8px 12px rgba(239,35,60,.2))}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#ef6476;font-weight:800;margin-bottom:10px}
+  h1{font-size:clamp(29px,7vw,48px);line-height:1.06;letter-spacing:-.04em;margin:0 auto 15px;max-width:570px}
+  .sub{font-size:17px;color:var(--muted);line-height:1.55;margin:0 auto 30px;max-width:500px}
+  .stage{height:150px;position:relative;display:flex;align-items:center;justify-content:center;gap:16px}
+  button{
+    appearance:none;border:0;border-radius:999px;min-height:54px;padding:14px 27px;
+    font:inherit;font-weight:800;font-size:16px;cursor:pointer;touch-action:manipulation;
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  #yes{background:linear-gradient(135deg,var(--red),var(--red2));color:white;box-shadow:0 10px 28px rgba(239,35,60,.28);z-index:3}
+  #yes:hover{transform:translateY(-2px) scale(1.04)}
+  #no{background:#252b38;color:#cbd0dc;z-index:4;position:relative}
+  .hint{height:24px;color:#7f889b;font-size:13px;margin-top:2px}
+  .success{display:none}
+  .success.show{display:block;animation:pop .5s cubic-bezier(.2,.8,.2,1)}
+  .success .big{font-size:64px;margin-bottom:8px}
+  .success h2{font-size:34px;margin:0 0 10px}
+  .success p{color:var(--muted);font-size:17px;margin:0}
+  .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .piece{position:absolute;top:-20px;width:8px;height:14px;border-radius:2px;animation:fall 1.7s linear forwards}
+  @keyframes pop{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+  @keyframes fall{to{transform:translateY(700px) rotate(600deg);opacity:0}}
+  @media(max-width:500px){
+    .card{padding:34px 18px 28px}.stage{height:180px}
+    button{padding:13px 21px;min-width:100px}
+    .sub{font-size:16px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*:before,*:after{animation-duration:.01ms!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<main class="card" id="app">
+  <div class="web"><span></span><span></span><span></span></div>
+  <div class="spider" aria-hidden="true">🕷️</div>
+  <div class="eyebrow">a very important question</div>
+  <h1>Wanna go watch the new Spider-Man movie with me? 👀</h1>
+  <p class="sub">I feel like this could be a pretty good excuse for popcorn and spending a few hours together.</p>
+
+  <section id="question">
+    <div class="stage" id="stage">
+      <button id="yes" type="button">Yes 🥹</button>
+      <button id="no" type="button">No 😔</button>
+    </div>
+    <div class="hint" id="hint" aria-live="polite">Choose wisely...</div>
+  </section>
+
+  <section class="success" id="success" aria-live="polite">
+    <div class="big">🕷️❤️🍿</div>
+    <h2>I knew you'd say yes 😌</h2>
+    <p>Spider-Man + popcorn + you sounds like a date to me.</p>
+  </section>
+  <div class="confetti" id="confetti"></div>
+</main>
+
+<script>
+(() => {
+  const stage=document.getElementById('stage'), no=document.getElementById('no');
+  const yes=document.getElementById('yes'), question=document.getElementById('question');
+  const success=document.getElementById('success'), hint=document.getElementById('hint');
+  let dodges=0;
+  const hints=[
+    "Choose wisely...",
+    "Nice try 😭",
+    "Hehe, nope.",
+    "You almost had it 👀",
+    "The button has commitment issues.",
+    "Okay okay... just say yes 🥺"
+  ];
+
+  function dodge(){
+    dodges++;
+    no.style.position='absolute';
+    const pad=4;
+    const maxX=Math.max(pad,stage.clientWidth-no.offsetWidth-pad);
+    const maxY=Math.max(pad,stage.clientHeight-no.offsetHeight-pad);
+    no.style.left=(pad+Math.random()*Math.max(1,maxX-pad))+'px';
+    no.style.top=(pad+Math.random()*Math.max(1,maxY-pad))+'px';
+    hint.textContent=hints[Math.min(dodges,hints.length-1)];
+  }
+
+  no.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse') dodge()});
+  no.addEventListener('pointerdown',e=>{e.preventDefault();dodge()});
+  no.addEventListener('focus',dodge);
+
+  yes.addEventListener('click',()=>{
+    question.style.display='none';
+    success.classList.add('show');
+    for(let i=0;i<34;i++){
+      const p=document.createElement('i');
+      p.className='piece';
+      p.style.left=(Math.random()*100)+'%';
+      p.style.background=i%2?'#ef233c':'#2563eb';
+      p.style.animationDelay=(Math.random()*.55)+'s';
+      p.style.transform=`rotate(${Math.random()*180}deg)`;
+      document.getElementById('confetti').appendChild(p);
+      setTimeout(()=>p.remove(),2300);
+    }
+  });
+})();
+</script>
+</body>
+</html>
